@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-import reportlab.pdgen.canvas as canvas
+import reportlab.pdfgen.canvas as canvas
 
 def generate_pdf(data, filename):
     """Generates a PDF file from the given data"""
