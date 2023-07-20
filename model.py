@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
-from api.preprocessing import preprocess_text
+from api.preprocessing import preprocess_text_with_nltk  # Updated import
 
 def train_and_evaluate_model():
     # Load the preprocessed data from a CSV file
@@ -12,9 +12,9 @@ def train_and_evaluate_model():
     # Split the data into training and testing sets
     train_data, test_data, train_labels, test_labels = train_test_split(data['text'], data['category'], test_size=0.2, random_state=42)
 
-    # Preprocess the training and testing data
-    train_data_preprocessed = train_data.apply(preprocess_text)
-    test_data_preprocessed = test_data.apply(preprocess_text)
+    # Preprocess the training and testing data using NLTK
+    train_data_preprocessed = train_data.apply(preprocess_text_with_nltk)
+    test_data_preprocessed = test_data.apply(preprocess_text_with_nltk)
 
     # Create TF-IDF vectorizer
     vectorizer = TfidfVectorizer()

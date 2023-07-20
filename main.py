@@ -2,7 +2,7 @@ import pandas as pd
 from api.nlp_api import some_function_in_nlp_api
 from api.data_loader import read_excel_files, write_to_csv
 from reporting.pdf_generator import generate_pdf
-from api.analyze_data import calculate_relevancy
+from api.analyze_data import calculate_relevancyy
 
 def main():
     # Call NLP functions

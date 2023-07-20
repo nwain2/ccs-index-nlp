@@ -1,6 +1,4 @@
-import os
 import pandas as pd
-import reportlab.pdfgen.canvas as canvas
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -20,10 +18,13 @@ def preprocess_text(text):
     preprocessed_text = ' '.join(lemmatized_tokens)
     return preprocessed_text
 
-def generate_pdf(data, filename):
-    """Generates a PDF file from the given data"""
-    pdf = canvas.Canvas(filename)
-    pdf.setTitle("Cyber Security Report")
-    data['Preprocessed_Description'] = data['Description'].apply(preprocess_text)
-    data.to_pdf(pdf)
-    pdf.save()
+def read_excel_files(*file_paths):
+    data = pd.DataFrame()
+    for file_path in file_paths:
+        df = pd.read_excel(file_path)
+        df['Preprocessed_Description'] = df['Description'].apply(preprocess_text)
+        data = data.append(df, ignore_index=True)
+    return data
+
+def write_to_csv(file_path, data):
+    data.to_csv(file_path, index=False)

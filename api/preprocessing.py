@@ -1,8 +1,9 @@
-import re
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import re
 
+# NLTK text preprocessing function
 def preprocess_text(text):
     # Remove special characters and numbers
     text = re.sub(r'\W', ' ', text)
@@ -21,3 +22,8 @@ def preprocess_text(text):
     preprocessed_text = ' '.join(lemmatized_tokens)
     
     return preprocessed_text
+
+# Example usage
+text = "This is a sample text for preprocessing with NLTK."
+preprocessed_text = preprocess_text(text)
+print("Preprocessed Text:", preprocessed_text)
