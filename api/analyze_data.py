@@ -1,20 +1,17 @@
 import pandas as pd
 import nltk
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
+nltk.download('punkt')
 
 def preprocess_text(text):
-    # Tokenization
+    if pd.isnull(text):  # Handle NaN values
+        return ""
+
+    if not isinstance(text, str):  # Handle non-string values
+        return ""
+
     tokens = nltk.word_tokenize(text)
-    # Remove stopwords
-    stop_words = set(stopwords.words('english'))
-    filtered_tokens = [token for token in tokens if token.lower() not in stop_words]
-    # Lemmatization
-    lemmatizer = WordNetLemmatizer()
-    lemmatized_tokens = [lemmatizer.lemmatize(token) for token in filtered_tokens]
-    # Join tokens back to text
-    preprocessed_text = ' '.join(lemmatized_tokens)
-    return preprocessed_text
+    # Add the rest of your preprocessing steps here, if any
+    return " ".join(tokens)
 
 def calculate_relevancy(group):
     # Calculate the mean sentiment and relevancy scores for each group
@@ -25,7 +22,8 @@ def calculate_relevancy(group):
     return group
 
 # Load the data from the Excel file
-data = pd.read_excel("data/cyber_security_data.xlsx")
+data = pd.read_csv("data/cyber_security_data.csv", encoding='ISO-8859-1', error_bad_lines=False)
+
 
 # Preprocess the 'Description' column using NLTK
 data['Preprocessed_Description'] = data['Description'].apply(preprocess_text)
@@ -52,6 +50,9 @@ grouped_data = grouped_data.groupby(['Taxonomy', 'Attack Class']).agg({
     'Sentiment': 'mean'  # You can calculate the mean sentiment as well if needed
 }).reset_index()
 
+grouped_data = data.groupby('Country')
+count_per_country = grouped_data['Relevancy'].count()
+
 # Calculations based on grouped_data DataFrame:
 
 # Count of Occurrences:
@@ -63,7 +64,6 @@ count_per_attack_class = grouped_data.groupby('Attack Class')['Relevancy'].count
 # Frequency and Percentage:
 # Percentage of attacks from each country compared to the total number of attacks
 total_attacks = grouped_data['Relevancy'].count()
-percentage_per_country = count_per_country / total_attacks * 100
 
 # Percentage of attacks belonging to each taxonomy and attack class
 percentage_per_taxonomy = count_per_taxonomy / total_attacks * 100

@@ -3,6 +3,8 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import re
 
+nltk.download('punkt')
+
 # NLTK text preprocessing function
 def preprocess_text(text):
     # Remove special characters and numbers

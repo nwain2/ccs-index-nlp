@@ -37,4 +37,3 @@ nlp_api = NLPAPI()
 text = "This is a sample text for sentiment analysis."
 sentiment_score = nlp_api.get_sentiment(text)
 print("Sentiment Score:", sentiment_score)
-

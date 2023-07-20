@@ -18,13 +18,26 @@ def preprocess_text(text):
     preprocessed_text = ' '.join(lemmatized_tokens)
     return preprocessed_text
 
-def read_excel_files(*file_paths):
-    data = pd.DataFrame()
+
+def read_csv_files(*file_paths):
+    """
+    Reads data from CSV files and returns a concatenated DataFrame.
+    Args:
+        *file_paths (str): Variable length list of file paths.
+    Returns:
+        pandas.DataFrame: Concatenated DataFrame from the CSV files.
+    """
+    data_frames = []
     for file_path in file_paths:
-        df = pd.read_excel(file_path)
-        df['Preprocessed_Description'] = df['Description'].apply(preprocess_text)
-        data = data.append(df, ignore_index=True)
-    return data
+        data_frame = pd.read_csv(file_path)
+        data_frames.append(data_frame)
+    return pd.concat(data_frames)
 
 def write_to_csv(file_path, data):
+    """
+    Writes data to a CSV file.
+    Args:
+        file_path (str): The path of the CSV file to write.
+        data (pandas.DataFrame): The data to be written to the CSV file.
+    """
     data.to_csv(file_path, index=False)
