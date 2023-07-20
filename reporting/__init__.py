@@ -1,1 +1,1 @@
-from pdf_generator import generate_pdf
+from .pdf_generator import generate_pdf
